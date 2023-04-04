@@ -28,7 +28,9 @@ import semmle.code.java.frameworks.Guice
 import semmle.code.java.frameworks.struts.StrutsActions
 import semmle.code.java.frameworks.Thrift
 import semmle.code.java.frameworks.javaee.jsf.JSFRenderer
+import semmle.code.java.frameworks.RabbitMQ
 private import semmle.code.java.dataflow.ExternalFlow
+
 
 /** A data flow source of remote user input. */
 abstract class RemoteFlowSource extends DataFlow::Node {
@@ -122,6 +124,14 @@ private class SpringServletInputParameterSource extends RemoteFlowSource {
   }
 
   override string getSourceType() { result = "Spring servlet input parameter" }
+}
+
+class RabbitListenerParameterSource extends RemoteFlowSource {
+  RabbitListenerParameterSource(){
+    // this.asParameter() = any(RabbitListenerParameter rlp | rlp.isTaintedInput())
+    this.asParameter() instanceof RabbitListenerParameter
+  } 
+  override string getSourceType() { result = "Spring RabbitListener input parameter" }
 }
 
 private class GuiceRequestParameterSource extends RemoteFlowSource {

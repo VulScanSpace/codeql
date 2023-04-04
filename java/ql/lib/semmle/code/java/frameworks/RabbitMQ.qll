@@ -26,3 +26,6 @@ import java
     }
   }
 
+  class RabbitListenerParameter extends Parameter{
+    RabbitListenerParameter(){this.getCallable() instanceof RabbitListenerMethod}
+  }
